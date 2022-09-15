@@ -25,8 +25,9 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // TODO: Check for a highscore and Load, else:
-        BestScoreText.text = "Best Score: " + StartMenuUI.playerName + " : " + m_Points;
+        // StartMenuManager.Instance.LoadHighscore();
+
+        BestScoreText.text = "Best Score: " + StartMenuManager.Instance.playerName + " : " + StartMenuManager.Instance.highScore;
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -74,10 +75,15 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
 
         // NEW: Set the highscore
-        if (m_Points >= highScore)
+        if (m_Points >= StartMenuManager.Instance.highScore)
         {
-            BestScoreText.text = "Best Score: " + StartMenuUI.playerName +" : " + m_Points;
+            StartMenuManager.Instance.highScore = m_Points;
+            StartMenuManager.Instance.playerName = StartMenuManager.Instance.currentPlayer;
+
+            BestScoreText.text = "Best Score: " + StartMenuManager.Instance.playerName + " : " + StartMenuManager.Instance.highScore;
             // TODO: Save BestScoreText
+            StartMenuManager.Instance.SaveHighscore();
+            Debug.Log("Highscore reached!");
         }
     }
 
